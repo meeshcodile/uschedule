@@ -5,6 +5,7 @@ const auth = require('../config/customFunction')
 const isAdmin = auth.isAdmin
 
 
+
 router.route('/profile')
     .get(isAdmin,adminController.profileGet)
 

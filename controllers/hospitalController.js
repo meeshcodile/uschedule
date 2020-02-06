@@ -38,43 +38,6 @@ module.exports ={
                 return
             }
 
-            // checking if email already exist
-            // Patient.findOne({ 'email': req.body.email }, (err, patient) => {
-            //     Hospital.findOne({ 'email': req.body.email }, (err, hospital) => {
-            //         Admin.findOne({ 'email': req.body.email }, (err, admin) => {
-            //             if (admin) {
-            //                 req.flash('error', 'email already in use')
-            //                 return res.redirect('/hospital/register')
-            //             }
-            //             if (err) {
-            //                 console.log(err)
-            //                 req.flash('error', 'Something Went Wrong, Please Try Again')
-            //                 return res.redirect('/hospital/register')
-            //             }
-
-            //         })
-            //         if (hospital) {
-            //             req.flash('error', 'Please Try Again With A Different Email')
-            //             res.redirect('/hospital/register')
-            //             return
-            //         }
-            //         // if (err) {
-            //         //     console.log(err)
-            //         //     req.flash('error', 'Something Went Wrong, Please Try Again')
-            //         //     return res.redirect('/hospital/register')
-            //         // }
-
-            //     })
-            //     if (patient) {
-            //         req.flash('error', 'Email already in use')
-            //         return res.redirect('/hospital/register')
-            //     }
-            //     // if (err) {
-            //     //     console.log(err)
-            //     //     req.flash('error', 'Something Went Wrong, Please Try Again')
-            //     //     return res.redirect('/hospital/register')
-            //     // }
-            // })
             const patient = await Patient.findOne({'email':req.body.email})
             if(patient){
                 req.flash('error', 'Email already in use')

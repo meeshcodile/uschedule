@@ -14,6 +14,7 @@ const mongoose = require("mongoose");
 const mongoStore = require("connect-mongo")(session);
 const MONGO_URL = require("./config/db").MONGOURL;
 const port = process.env.PORT || 4000;
+
 // ========================database connections===========================
 mongoose.Promise = global.Promise;
 mongoose
@@ -44,8 +45,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   session({
     cookie: {
-      // duration: 30 * 60 * 1000,
-      // activeDuration: 5 * 60 * 1000,
+
       maxAge: 180 * 60 * 1000
     },
     secret: "hospital management system",

@@ -34,45 +34,6 @@ module.exports ={
             const result = Joi.validate(req.body, patientSchema);
 
             // checking if email already exist
-            // Patient.findOne({ 'email': req.body.email }, (err, patient) => {
-            //     Hospital.findOne({ 'email': req.body.email }, (err, hospital) => {
-            //         Admin.findOne({ 'email': req.body.email }, (err, admin) => {
-            //             if (admin) {
-            //                 req.flash('error', 'email already in use')
-            //                 res.redirect('back')
-            //                 return 
-            //             }
-            //             if (err) {
-            //                 console.log(err)
-            //                 req.flash('error', 'Something Went Wrong, Please Try Again')
-            //                 res.redirect('back')
-            //                 return 
-            //             }
-            //         })
-            //         if (hospital) {
-            //             req.flash('error', 'E Please Try Again With A Different Email')
-            //             return res.redirect('back')
-            //         }
-            //         if (err) {
-            //             console.log(err)
-            //             req.flash('error', 'Something Went Wrong, Please Try Again')
-            //             res.redirect('back')
-            //             return 
-            //         }
-            //     })
-            //     if (patient) {
-            //         req.flash('error', 'Email already in use')
-            //         res.redirect('back')
-            //         return 
-            //     }
-            //     if (err) {
-            //         console.log(err)
-            //         req.flash('error', 'Something Went Wrong, Please Try Again')
-            //         res.redirect('back')
-            //         return 
-            //     }
-            // })
-
 
             const patient = await Patient.findOne({ 'email': req.body.email })
             if (patient) {

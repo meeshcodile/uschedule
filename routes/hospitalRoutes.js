@@ -8,6 +8,7 @@ router.route('/register')
     .get(hospitalController.registerGet)
     .post(hospitalController.registerPost)
 
+    
 router.route('/profile')
     .get(isHospital, hospitalController.profileGet)
 
