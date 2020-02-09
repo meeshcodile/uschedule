@@ -3,7 +3,6 @@ const { Schema } = mongoose
 const bcrypt = require('bcryptjs')
 const passportLocalMongoose = require('passport-local-mongoose')
 
-
 const hospitalSchema = new Schema({
     HospitalName: {
         type: String,
@@ -29,8 +28,12 @@ const hospitalSchema = new Schema({
         type:String,
         required:true
     },
+    appointment:{
+        type:Object
+    },
     password: String,
-    active: Boolean
+    active: Boolean,
+
 })
 
 

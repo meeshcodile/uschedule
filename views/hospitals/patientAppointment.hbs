@@ -6,7 +6,15 @@
         <div class="alert alert-secondary text-center">
             <h1 style="color:#000"><strong>All Patient Appointment</strong></h1>
         </div>
-
+<div class="col-xs-6 col-md-3" style="background: #E2E3E5;">
+    <div class="panel panel-default">
+        <div class="panel-body easypiechart-panel">
+            <h4 style="font-weight: bolder;">Total Appointment</h4>
+            <div class="easypiechart" id="easypiechart-blue" data-percent="92"><span class="percent"
+                    style="font-size: 30px; font-weight:bold;">{{totalAppointment}}</span></div>
+        </div>
+    </div>
+</div>
 
         <table class="table table-bordered table-responsive" style="margin-top:40px; ">
             <thead class="bg-dark text-center">
@@ -15,9 +23,9 @@
                     <th>Date</th>
                     <th>FullName</th>
                     <th>Email</th>
-                    <th>Hospital</th>
                     <th>Patient ID</th>
                     <th>Appointment Date</th>
+                    <th>Appointment Time</th>
                     <th>Department</th>
                     <th>Patient Message</th>
                     <th>Approved</th>
@@ -34,9 +42,9 @@
                     <td>{{date}}</td>
                     <td>{{fullName}}</td>
                     <td>{{email}}</td>
-                    <td>{{hospital}}</td>
                     <td>{{patientId}}</td>
                     <td>{{appointmentDate}}</td>
+                    <td>{{appointmentTime}}</td>
                     <td>{{department}}</td>
                     <td>{{message}}</td>
                     <td>{{isApproved}}</td>
@@ -44,8 +52,6 @@
                     <td class="d-flex">
                         <a href="/hospital/approveAppointment/{{_id}}" class="btn btn-sm btn-success mr-2">Approve</a><br>
                         <a href="/hospital/declineAppointment/{{_id}}" class="btn btn-sm btn-warning mr-2">Decline</a><br>
-
-                        {{!-- <a href="/admin/delete/{{_id}}" class="btn btn-sm btn-danger mr-2">Delete</a> --}}
 
                         <form action="/hospital/deleteAppointment/{{id}}?newMethod=DELETE" method="post">
                             <button class="btn btn-sm btn-danger" type="submit">Delete</button>

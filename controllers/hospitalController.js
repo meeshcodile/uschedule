@@ -105,22 +105,24 @@ module.exports ={
         req.flash('success', 'see you later')
         res.redirect('/')
     },
-    patientAppointmentGet:(req, res)=>{
-        Appointment.find().then(patientAppointment =>{
-            res.render('hospitals/patientAppointment', { layout: 'hospital', patientAppointment })
-
+    patientAppointmentGet:async(req, res)=>{
+        let hospitalId = req.user.id
+        await Appointment.find({'hospitalId':hospitalId}).then(async(patientAppointment) =>{
+            await Appointment.countDocuments({'hospitalId':hospitalId}).then(totalAppointment=>{
+                res.render('hospitals/patientAppointment', { layout: 'hospital', patientAppointment, totalAppointment:totalAppointment })
+            })
         })
     },
-    deleteAppointment:(req, res)=>{
-        Appointment.findByIdAndDelete(req.params.id)
-            .then(deletedintern => {
-                req.flash('success', 'Patient Appointment Successfully Deleted ')
-                res.redirect('/hospital/patientAppointment')
-                return
-            })
-            .catch(err => {
-                console.log(err)
-            })
+    deleteAppointment:async(req, res)=>{
+        await Appointment.findByIdAndDelete(req.params.id)
+                .then(deletedintern => {
+                    req.flash('success', 'Patient Appointment Successfully Deleted ')
+                    res.redirect('/hospital/patientAppointment')
+                    return
+                })
+                .catch(err => {
+                    console.log(err)
+                })
     },
     approveAppointmentGet:async(req, res)=>{
         await Appointment.findById(req.params.id)
@@ -158,22 +160,35 @@ module.exports ={
                 res.redirect('back')
             })
     },
-    doctorsGet:(req, res)=>{
-        Doctor.find().then(doctor=>{
-            res.render('hospitals/doctors', { layout: 'hospital', doctor })
-
+    doctorsGet:async(req, res)=>{
+        let hospitalId = req.user.id
+        await Doctor.find({'hospitalId':hospitalId}).then(async(doctor)=>{
+            await Doctor.countDocuments({'hospitalId':hospitalId}).then(totalDoctors=>{
+            res.render('hospitals/doctors', { layout: 'hospital', doctor,totalDoctors })
+            })
         })
     },
     doctorsPost:async(req, res,next)=>{
-        console.log(req.body)
-        try{
+        let id = req.user.id
+        await Hospital.findById(id).then(async(hospital)=>{
+           
+            const doctorEmail = await Doctor.findOne({ 'email': req.body.email });
+        
+            if(doctorEmail){
+                req.flash('error', `A Doctor With ${doctorEmail.email} email already exist`)
+                res.redirect('back')
+                return
+            }
+
+            try{
             const newDoctor = new Doctor({
-                firstName : req.body.firstName,
-                lastName: req.body.lastName,
-                email:req.body.email,
-                specialty:req.body.specialty,
-                doctorID:req.body.doctorID
-            })
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              email: req.body.email,
+              department: req.body.department,
+              doctorID: req.body.doctorID,
+              hospitalId: hospital.id
+            });
             
             await newDoctor.save().then(()=>{
                 console.log(`${newDoctor} saved successfully`)
@@ -184,9 +199,12 @@ module.exports ={
                 console.log(err)
             })
         }
-        catch(err){
+         catch(err){
             next(err)
         }
+        })
+        
+       
 
     },
     declineAppointmentGet: async (req, res) => {

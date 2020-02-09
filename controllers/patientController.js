@@ -6,6 +6,7 @@ const mailer = require('../misc/mailer')
 const Hospital = require('../models/hospital')
 const Appointment = require('../models/appointment')
 const Joi = require('joi')
+const moment = require('moment')
 const randomstring = require('randomstring')
 const auth = require('../config/customFunction')
 const isPatient = auth.isPatient
@@ -33,8 +34,7 @@ module.exports ={
         try {
             const result = Joi.validate(req.body, patientSchema);
 
-            // checking if email already exist
-
+            //================checking if email already exist===================
             const patient = await Patient.findOne({ 'email': req.body.email })
             if (patient) {
                 req.flash('error', 'Email already in use')
@@ -66,17 +66,8 @@ module.exports ={
             delete result.value.confirmPassword;
 
             const patientId =`US${randomstring.generate({ length: 4, charset: 'numeric' })}`
-            // var patientId = 0
-            // patientId++
-            
-            // function Counter(initialValue) {
-            //     patientId = initialValue;
-            // }
-            // Counter.prototype.addWithOr = function addWithOr(incrVal) {
-            //     patientId += incrVal || 1;
-            // }
 
-
+            // ==============sending mail================
             const html = ` your unique patient identity number is <strong>${patientId}</strong> you however are encouraged to keep it with you
             at all times has it will be your identity in the hub
             <br>
@@ -88,11 +79,6 @@ module.exports ={
             await mailer.sendEmail('uschedule.info@gmail.com', result.value.email, 'patient ID', html)
 
 
-
-
-            // Setting store's act to be inactive
-            // result.value.active = false;
-
             // Saving store to database
             const newPatient = await new Patient({
                 firstName : result.value.firstName,
@@ -103,17 +89,14 @@ module.exports ={
                 bloodGroup:result.value.bloodGroup,
                 password:result.value.password,
                 usertype:'Patient',
-                patientId:patientId
+                patientId:patientId,
             });
             await newPatient.save();
             console.log(`${newPatient} created successfully.`);
 
-            
-
-
+        
             req.flash('success', `Patient successfully created Your Patient ID has been sent to ${result.value.email}`)
-            res.redirect('/login')
-
+            return res.redirect('/login')
 
         }
         catch (error) {
@@ -136,23 +119,39 @@ module.exports ={
         req.flash('success', 'see you later')
         res.redirect('/')
     },
-    appointmentPost:(req, res)=>{
+    appointmentPost:async(req, res)=>{
         const id = req.params.id
         console.log(id)
-        Patient.findById(id).then(patient => {
-            let newAppointment = new Appointment({
-                hospital: req.body.hospital,
-                message: req.body.message,
-                appointmentDate: req.body.appointmentDate,
-                department:req.body.department,
-                fullName: patient.firstName + ' ' + patient.lastName,
-                email: patient.email,
-                patientId: patient.patientId
-            })
-            newAppointment.save().then(newAppointment => {
-                console.log('Appointment savedd successfully', newAppointment)
-                req.flash('success', 'Your Appointment has been booked please await further instructions')
-                res.redirect('back')
+        await Patient.findById(id).then(async(patient) => {
+                await Hospital.findOne({HospitalName:req.body.hospital}).then(async(hospital)=>{
+
+                     //================formatting the date.now() method using moment===================
+                    const date = moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a');
+                    console.log(date);
+                    
+                    let appointDate =req.body.appointmentDate
+                    let appointmentFormat = moment(appointDate).format('MMMM Do YYYY')
+                    console.log(appointmentFormat)
+
+                    let newAppointment = new Appointment({
+                        hospital: req.body.hospital,
+                        message: req.body.message,
+                        appointmentDate: appointmentFormat,
+                        appointmentTime: req.body.appointmentTime,
+                        department: req.body.department,
+                        fullName: patient.firstName + ' ' + patient.lastName,
+                        email: patient.email,
+                        patientId: patient.patientId,
+                        hospitalId:hospital.id,
+                        date:date
+                    })
+                 await newAppointment.save().then(newAppointment => {
+                     console.log('Appointment savedd successfully', newAppointment)
+                     req.flash('success', 'Your Appointment has been booked please await further instructions')
+                     return res.redirect('back')
+                })
+
+               
             }).catch(err => {
                 console.log(err)
                 req.flash('error', 'Something Went Wrong Please Try Again')
