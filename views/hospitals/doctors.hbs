@@ -1,0 +1,45 @@
+<div class="panel-header panel-header-sm">
+</div>
+
+<div class="table-responsive">
+    <div class="container ">
+        <div class="alert alert-secondary text-center">
+            <h1 style="color:#000"><strong>Our Doctors</strong></h1>
+        </div>
+        <div class="col-xs-6 col-md-3" style="background: #E2E3E5;">
+            <div class="panel panel-default">
+                <div class="panel-body easypiechart-panel">
+                    <h4 style="font-weight: bolder;">Total Doctors</h4>
+                    <div class="easypiechart" id="easypiechart-blue" data-percent="92"><span class="percent"
+                            style="font-size: 30px; font-weight:bold;">{{totalDoctors}}</span></div>
+                </div>
+            </div>
+        </div>
+
+
+        <table class="table table-bordered" style="margin-top:40px; ">
+            <thead class="bg-dark text-center">
+                <tr class="text-white">
+                    {{!-- <th>id</th> --}}
+                   
+                    <th>Doctor Name</th>
+                    <th>Doctor ID</th>
+                    <th>Department</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+
+
+                {{#each doctor}}
+                <tr>
+                    <td>{{firstName}}</td>
+                    <td>{{doctorID}}</td>
+                    <td>{{department}}</td>
+                    <td>{{email}}</td>
+                
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>

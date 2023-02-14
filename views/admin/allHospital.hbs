@@ -1,0 +1,68 @@
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="#">
+                    <em class="fa fa-home"></em>
+                </a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Dashboard</h1>
+        </div>
+    </div>
+    <!--/.row-->
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Admin Dashboard
+                    <span class="pull-right clickable panel-toggle panel-button-tab-left"><em
+                            class="fa fa-toggle-up"></em></span></div>
+
+
+            </div>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="table-responsive">
+        <div class="container ">
+            <div class="alert alert-secondary text-center">
+                <h1 style="color:#000"><strong>All Hospital</strong></h1>
+            </div>
+    
+    
+            <table class="table table-bordered table-responsive" style="margin-top:40px; ">
+                <thead class="bg-dark text-center">
+                    <tr class="text-white">
+                        {{!-- <th>id</th> --}}
+                        
+                        <th>Hospital</th>
+                        <th>Registration Number</th>
+                        <th>Address</th>
+                        
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+    
+    
+                    {{#each hospital}}
+                    <tr>
+                        {{!-- <td>{{id}}</td> --}}
+                        
+                        <td>{{HospitalName}}</td>
+                        <td>{{RegNumber}}</td>
+                        <td>{{fullAddress}}</td>
+                        
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+</div>

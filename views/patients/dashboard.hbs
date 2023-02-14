@@ -1,0 +1,77 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Edit Profile</h5>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            
+                        
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <p>{{user.email}}</p> 
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Patient ID</label>
+                                    <p>{{user.patientId}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <p>{{user.firstName}}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <p>{{user.lastName}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <p>{{user.fullAddress}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 pr-1">
+                                <div class="form-group">
+                                    <label>BloodGroup</label>
+                                    <p>{{user.bloodGroup}}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 px-1">
+                                <div class="form-group">
+                                    <label>PhoneNumber</label>
+                                    <p>{{user.phoneNumber}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+
+{{!-- {{RegisteredHospital.phoneNumber}} --}}
+{{!-- {{#each hospital}}
+<input type="text" value={{HospitalName}}>
+{{/each}} --}}
+
